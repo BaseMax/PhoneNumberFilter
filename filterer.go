@@ -95,7 +95,7 @@ func main() {
 
 	// Write the filtered results to the result file
 	var id int
-	for phoneNumber, name := range sortedPhoneNumbers {
+	for phoneNumber, name := range phoneNumbers {
 		id++
 		result := fmt.Sprintf("%d\t%s\t%s\n", id, name, phoneNumber)
 		resultFile.WriteString(result)
