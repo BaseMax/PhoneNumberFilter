@@ -8,23 +8,46 @@ import (
 	"strings"
 )
 
-// Sort the map by its values (names) and return the sorted map
+func swapPhoneNumbers(phoneNumbers map[string]string) map[string]string {
+	// Create a new map to hold the swapped values
+	swappedPhoneNumbers := make(map[string]string)
+	for key, value := range phoneNumbers {
+		swappedPhoneNumbers[value] = key
+	}
+
+	// Return the swapped map
+	return swappedPhoneNumbers
+}
+
 func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
 	// Create a slice to hold the keys of the map
 	keys := make([]string, 0, len(phoneNumbers))
 	for key := range phoneNumbers {
 		keys = append(keys, key)
+		// fmt.Println(key)
 	}
 
-	// Sort the keys based on their corresponding values (names)
-	sort.Slice(keys, func(i, j int) bool {
-		return phoneNumbers[keys[i]] < phoneNumbers[keys[j]]
-	})
+	// Print the values in keys
+	// for key := range keys {
+	// 	fmt.Println(keys[key])
+	// }
+
+	// Sort the values in keys
+	sort.Strings(keys)
+
+	// fmt.Println("=============================")
+	// fmt.Println("=============================")
+	// fmt.Println("=============================")
+
+	// Print the keys
+	// for key := range keys {
+	// 	fmt.Println(keys[key])
+	// }
 
 	// Create a new map to hold the sorted values
-	sortedPhoneNumbers := make(map[string]string)
-	for _, key := range keys {
-		sortedPhoneNumbers[key] = phoneNumbers[key]
+	sortedPhoneNumbers := make(map[string]string, len(phoneNumbers))
+	for key := range keys {
+		sortedPhoneNumbers[keys[key]] = phoneNumbers[keys[key]]
 	}
 
 	// Return the sorted map
@@ -101,7 +124,8 @@ func main() {
 	}
 
 	// Sort the phone numbers by name
-	phoneNumbers = sortPhoneNumbers(phoneNumbers)
+	phoneNumbers = swapPhoneNumbers(phoneNumbers)
+	sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
 
 	// Create a new file to store the filtered results
 	resultFile, err := os.Create("filtered_contacts.txt")
@@ -118,7 +142,7 @@ func main() {
 
 	// Write the filtered results to the result file
 	var id int
-	for phoneNumber, name := range phoneNumbers {
+	for phoneNumber, name := range sortedPhoneNumbers {
 		id++
 		result := fmt.Sprintf("%d\t%s\t%s\n", id, name, phoneNumber)
 		resultFile.WriteString(result)
