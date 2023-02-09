@@ -4,55 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 )
-
-func swapPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	// Create a new map to hold the swapped values
-	swappedPhoneNumbers := make(map[string]string)
-	for key, value := range phoneNumbers {
-		swappedPhoneNumbers[value] = key
-	}
-
-	// Return the swapped map
-	return swappedPhoneNumbers
-}
-
-func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	// Create a slice to hold the keys of the map
-	keys := make([]string, 0, len(phoneNumbers))
-	for key := range phoneNumbers {
-		keys = append(keys, key)
-		// fmt.Println(key)
-	}
-
-	// Print the values in keys
-	// for key := range keys {
-	// 	fmt.Println(keys[key])
-	// }
-
-	// Sort the values in keys
-	sort.Strings(keys)
-
-	// fmt.Println("=============================")
-	// fmt.Println("=============================")
-	// fmt.Println("=============================")
-
-	// Print the keys
-	// for key := range keys {
-	// 	fmt.Println(keys[key])
-	// }
-
-	// Create a new map to hold the sorted values
-	sortedPhoneNumbers := make(map[string]string, len(phoneNumbers))
-	for key := range keys {
-		sortedPhoneNumbers[keys[key]] = phoneNumbers[keys[key]]
-	}
-
-	// Return the sorted map
-	return sortedPhoneNumbers
-}
 
 func main() {
 	// Open the file
@@ -124,8 +77,9 @@ func main() {
 	}
 
 	// Sort the phone numbers by name
-	phoneNumbers = swapPhoneNumbers(phoneNumbers)
-	sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
+	// TODO:
+	// phoneNumbers = swapPhoneNumbers(phoneNumbers)
+	// sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
 
 	// Create a new file to store the filtered results
 	resultFile, err := os.Create("filtered_contacts.txt")
@@ -138,7 +92,6 @@ func main() {
 	// Write the header to the result file
 	header := "ID\tName\tPhone Number\n"
 	resultFile.WriteString(header)
-	resultFile.WriteString(header)
 
 	// Write the filtered results to the result file
 	var id int
@@ -149,9 +102,9 @@ func main() {
 	}
 
 	// Print the filtered results in a table format
-	// fmt.Println(header)
-	// for phoneNumber, name := range phoneNumbers {
-	// 	id++
-	// 	fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
-	// }
+	fmt.Println(header)
+	for phoneNumber, name := range phoneNumbers {
+		id++
+		fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
+	}
 }
