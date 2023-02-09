@@ -5,69 +5,32 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"golang.org/x/text/collate"
+	"golang.org/x/text/language"
 )
 
-func partition(phoneNumbers []string, left int, right int) int {
-	// Get the pivot
-	pivot := phoneNumbers[right]
-
-	// Create a variable to store the index of the smaller element
-	i := left - 1
-
-	// Loop through the array
-	for j := left; j < right; j++ {
-		// If the current element is smaller than the pivot
-		if phoneNumbers[j] < pivot {
-			// Increment the index of the smaller element
-			i++
-
-			// Swap the current element with the element at the index of the smaller element
-			phoneNumbers[i], phoneNumbers[j] = phoneNumbers[j], phoneNumbers[i]
-		}
-	}
-
-	// Swap the element at the index of the smaller element with the pivot
-	phoneNumbers[i+1], phoneNumbers[right] = phoneNumbers[right], phoneNumbers[i+1]
-
-	// Return the index of the smaller element
-	return i + 1
-}
-
-func quickSort(phoneNumbers []string, left int, right int) {
-	if left < right {
-		// Partition the array
-		pivot := partition(phoneNumbers, left, right)
-
-		// Sort the left side
-		quickSort(phoneNumbers, left, pivot-1)
-
-		// Sort the right side
-		quickSort(phoneNumbers, pivot+1, right)
-	}
-}
-
-// Sort by name (UTF-8)
+// Sort the map by its values (names) and return the sorted map
 func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	// Create a slice to store the phone numbers
-	var phoneNumbersSlice []string
-
-	// Add the phone numbers to the slice
-	for phoneNumber := range phoneNumbers {
-		phoneNumbersSlice = append(phoneNumbersSlice, phoneNumber)
+	var keys []string
+	for key := range phoneNumbers {
+		keys = append(keys, key)
 	}
 
-	// Sort the phone numbers
-	quickSort(phoneNumbersSlice, 0, len(phoneNumbersSlice)-1)
+	// Create a new collator with a specified locale
+	c := collate.New(language.Make("fa"))
 
-	// Create a map to store the sorted phone numbers
+	// Use the collator to sort the keys
+	c.SortStrings(keys)
+
+	// Create a new map to store the sorted phone numbers
 	sortedPhoneNumbers := make(map[string]string)
 
-	// Add the phone numbers to the map
-	for _, phoneNumber := range phoneNumbersSlice {
-		sortedPhoneNumbers[phoneNumber] = phoneNumbers[phoneNumber]
+	// Add the sorted phone numbers to the new map
+	for _, key := range keys {
+		sortedPhoneNumbers[key] = phoneNumbers[key]
 	}
 
-	// Return the sorted phone numbers
 	return sortedPhoneNumbers
 }
 
@@ -87,6 +50,15 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+		// Trim line
+		line = strings.TrimSpace(line)
+
+		// Skip empty lines
+		if len(line) == 0 {
+			continue
+		}
+
+		// Split the line by tabs
 		columns := strings.Split(line, "\t")
 
 		// Skip empty lines
@@ -98,13 +70,28 @@ func main() {
 		name := columns[1]
 		phoneNumber := columns[2]
 
+		// Trim name
+		name = strings.TrimSpace(name)
+
+		// If the phone number not starts with 0, and it starts with 9 accept it otherwise skip it
+		if len(phoneNumber) > 0 {
+			if phoneNumber[0] != '0' && phoneNumber[0] != '9' {
+				continue
+			} else if phoneNumber[0] == '9' {
+				// add 0 to the beginning of the phone number
+				phoneNumber = "0" + phoneNumber
+			}
+		}
+
+		// Skip phone numbers that are not 11 digits
+		if len(phoneNumber) != 11 {
+			continue
+		}
+
 		// Check if the phone number is already in the map
 		if _, exists := phoneNumbers[phoneNumber]; exists {
 			continue
 		}
-
-		// Trim name
-		name = strings.TrimSpace(name)
 
 		// Add the phone number and name to the map
 		phoneNumbers[phoneNumber] = name
@@ -130,6 +117,7 @@ func main() {
 	// Write the header to the result file
 	header := "ID\tName\tPhone Number\n"
 	resultFile.WriteString(header)
+	resultFile.WriteString(header)
 
 	// Write the filtered results to the result file
 	var id int
@@ -140,9 +128,9 @@ func main() {
 	}
 
 	// Print the filtered results in a table format
-	fmt.Println(header)
-	for phoneNumber, name := range phoneNumbers {
-		id++
-		fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
-	}
+	// fmt.Println(header)
+	// for phoneNumber, name := range phoneNumbers {
+	// 	id++
+	// 	fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
+	// }
 }
