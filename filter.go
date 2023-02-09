@@ -8,6 +8,20 @@ import (
 	"sort"
 )
 
+// Sort by name (UTF-8)
+func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
+	keyList := []string{}
+	for key,_ := range phoneNumbers {
+		keyList = append(keyList,key)
+	}
+	sort.Strings(keyList)
+	ret := map[string]string{}
+	for i,v := range keyList {
+		ret[v] = phoneNumbers[keyList[i]]
+	}
+	return ret
+}
+
 func main() {
 	// Open the file
 	file, err := os.Open("contacts.txt")
@@ -106,18 +120,4 @@ func main() {
 		id++
 		fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
 	}
-}
-
-// Sort by name (UTF-8)
-func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	keyList := []string{}
-	for key,_ := range phoneNumbers {
-		keyList = append(keyList,key)
-	}
-	sort.Strings(keyList)
-	ret := map[string]string{}
-	for i,v := range keyList {
-		ret[v] = phoneNumbers[keyList[i]]
-	}
-	return ret
 }
