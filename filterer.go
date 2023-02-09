@@ -4,33 +4,30 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
-
-	"golang.org/x/text/collate"
-	"golang.org/x/text/language"
 )
 
 // Sort the map by its values (names) and return the sorted map
 func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	var keys []string
+	// Create a slice to hold the keys of the map
+	keys := make([]string, 0, len(phoneNumbers))
 	for key := range phoneNumbers {
 		keys = append(keys, key)
 	}
 
-	// Create a new collator with a specified locale
-	c := collate.New(language.Make("fa"))
+	// Sort the keys based on their corresponding values (names)
+	sort.Slice(keys, func(i, j int) bool {
+		return phoneNumbers[keys[i]] < phoneNumbers[keys[j]]
+	})
 
-	// Use the collator to sort the keys
-	c.SortStrings(keys)
-
-	// Create a new map to store the sorted phone numbers
+	// Create a new map to hold the sorted values
 	sortedPhoneNumbers := make(map[string]string)
-
-	// Add the sorted phone numbers to the new map
 	for _, key := range keys {
 		sortedPhoneNumbers[key] = phoneNumbers[key]
 	}
 
+	// Return the sorted map
 	return sortedPhoneNumbers
 }
 
