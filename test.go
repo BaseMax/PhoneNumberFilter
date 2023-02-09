@@ -38,6 +38,17 @@ func TestSortPhoneNumbers(t *testing.T) {
 				"98765432109": "Jane",
 			},
 		},
+		{
+			name: "persian names",
+			input: map[string]string{
+				"12345678901": "مهدی",
+				"98765432109": "اسمان",
+			},
+			expected: map[string]string{
+				"98765432109": "اسمان",
+				"12345678901": "مهدی",
+			},
+		},
 	}
 
 	for _, test := range tests {
