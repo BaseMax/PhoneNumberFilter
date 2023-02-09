@@ -76,10 +76,7 @@ func main() {
 		return
 	}
 
-	// Sort the phone numbers by name
-	// TODO:
-	// phoneNumbers = swapPhoneNumbers(phoneNumbers)
-	// sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
+	sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
 
 	// Create a new file to store the filtered results
 	resultFile, err := os.Create("filtered_contacts.txt")
@@ -107,4 +104,15 @@ func main() {
 		id++
 		fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
 	}
+}
+
+// Sort by name (UTF-8)
+func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
+	key := reflect.ValueOf(phoneNumbers).MapKeys()
+	sort.Strings(key)
+	ret := map[string]string{}
+	for i, v := range key {
+		ret[v] = phoneNumbers[key[i]]
+	}
+	return ret
 }
