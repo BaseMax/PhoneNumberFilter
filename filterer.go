@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sort"
 )
 
 func main() {
@@ -77,6 +78,7 @@ func main() {
 	}
 
 	sortedPhoneNumbers := sortPhoneNumbers(phoneNumbers)
+	_ = sortedPhoneNumbers
 
 	// Create a new file to store the filtered results
 	resultFile, err := os.Create("filtered_contacts.txt")
@@ -115,7 +117,7 @@ func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
 	sort.Strings(keyList)
 	ret := map[string]string{}
 	for i,v := range keyList {
-		ret[v] = phoneNumbers[key[i]]
+		ret[v] = phoneNumbers[keyList[i]]
 	}
 	return ret
 }
