@@ -10,10 +10,6 @@ go run filter.go
 
 The input file is `contacts.txt` and the output file is `filtered_contacts.txt`.
 
-## TODO
-
-- Sorting by names
-
 ## License
 
 This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
