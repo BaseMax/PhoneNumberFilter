@@ -108,10 +108,13 @@ func main() {
 
 // Sort by name (UTF-8)
 func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
-	key := reflect.ValueOf(phoneNumbers).MapKeys()
-	sort.Strings(key)
+	keyList := []string{}
+	for key,_ := range phoneNumbers {
+		keyList = append(keyList,key)
+	}
+	sort.Strings(keyList)
 	ret := map[string]string{}
-	for i, v := range key {
+	for i,v := range keyList {
 		ret[v] = phoneNumbers[key[i]]
 	}
 	return ret
