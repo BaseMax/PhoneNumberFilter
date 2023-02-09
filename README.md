@@ -1,11 +1,11 @@
-# PhoneNumber Filterer
+# PhoneNumber Filter
 
 This is a simple program that filters phone numbers from a text file. It is written in Go.
 
 ## Usage
 
 ```bash
-go run filterer.go
+go run filter.go
 ```
 
 The input file is `contacts.txt` and the output file is `filtered_contacts.txt`.
