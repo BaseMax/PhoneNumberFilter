@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -46,7 +47,7 @@ func TestSortPhoneNumbers(t *testing.T) {
 			},
 			expected: map[string]string{
 				"98765432109": "اسمان",
-				"12345678901": "مهدی",
+				"12345678901": "مهدی1",
 			},
 		},
 	}
@@ -54,13 +55,12 @@ func TestSortPhoneNumbers(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			actual := sortPhoneNumbers(test.input)
+
 			if !reflect.DeepEqual(actual, test.expected) {
 				t.Errorf("expected: %v, actual: %v", test.expected, actual)
+			} else {
+				fmt.Println("Success Test")
 			}
 		})
 	}
-}
-
-func main() {
-	testSortPhoneNumbers()
 }

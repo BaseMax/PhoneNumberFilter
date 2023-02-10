@@ -4,19 +4,19 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"sort"
+	"strings"
 )
 
 // Sort by name (UTF-8)
 func sortPhoneNumbers(phoneNumbers map[string]string) map[string]string {
 	keyList := []string{}
-	for key,_ := range phoneNumbers {
-		keyList = append(keyList,key)
+	for key, _ := range phoneNumbers {
+		keyList = append(keyList, key)
 	}
 	sort.Strings(keyList)
 	ret := map[string]string{}
-	for i,v := range keyList {
+	for i, v := range keyList {
 		ret[v] = phoneNumbers[keyList[i]]
 	}
 	return ret
@@ -115,7 +115,7 @@ func main() {
 	}
 
 	// Print the filtered results in a table format
-	fmt.Println(header)
+	fmt.Print(header)
 	for phoneNumber, name := range phoneNumbers {
 		id++
 		fmt.Printf("%d\t%s\t%s\n", id, name, phoneNumber)
