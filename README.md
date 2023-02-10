@@ -1,6 +1,6 @@
 # PhoneNumber Filter
 
-This is a simple program that filters phone numbers from a text file. It is written in Go.
+This is a simple program that filters phone numbers from a text file. It is written in Go. Finally the program sorts the numbers by its name with support of UTF-8 characters and removes duplicates numbers.
 
 ## Usage
 
@@ -8,7 +8,7 @@ This is a simple program that filters phone numbers from a text file. It is writ
 go run filter.go
 ```
 
-The input file is `contacts.txt` and the output file is `filtered_contacts.txt`. Finally the program sorts the numbers by its name with support of UTF-8 characters and removes duplicates numbers.
+The input file is `contacts.txt` and the output file is `filtered_contacts.txt`.
 
 ## License
 
